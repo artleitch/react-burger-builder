@@ -31,7 +31,9 @@ class BurgerBuilder extends Component {
       .then((response) => {
         this.setState({ ingredients: response.data })
       })
-      .catch((error) => {})
+      .catch((error) => {
+        this.setState({ error: true })
+      })
   }
 
   updatePurchaseState(ingredients) {
@@ -119,7 +121,12 @@ class BurgerBuilder extends Component {
       disabledInfo[key] = disabledInfo[key] <= 0
     }
     let orderSummary = null
-    let burger = <Spinner />
+    let burger = this.state.error ? (
+      <p>Ingredients cannot be loaded</p>
+    ) : (
+      <Spinner />
+    )
+
     if (this.state.ingredients) {
       orderSummary = (
         <OrderSummary
