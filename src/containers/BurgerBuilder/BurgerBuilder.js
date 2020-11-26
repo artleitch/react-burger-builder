@@ -6,28 +6,20 @@ import Burger from '../../components/Burger/Burger'
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary'
-import axios from '../../axios-orders'
 import Spinner from '../../components/UI/Spinner/Spinner'
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler'
 import * as burgerBuilderActions from '../../store/actions/'
+import axios from '../../axios-orders'
 
 class BurgerBuilder extends Component {
   state = {
     totalPrice: 4,
     purchasable: false,
     purchasing: false,
-    loading: false,
   }
 
   componentDidMount() {
-    // axios
-    //   .get('https://react-burger-builder-909bf.firebaseio.com/ingredients.json')
-    //   .then((response) => {
-    //     this.setState({ ingredients: response.data })
-    //   })
-    //   .catch((error) => {
-    //     this.setState({ error: true })
-    //   })
+    this.props.initIngredients()
   }
 
   updatePurchaseState(ingredients) {
@@ -62,12 +54,12 @@ class BurgerBuilder extends Component {
     }
     let orderSummary = null
 
-    let burger = this.state.error ? (
+    let burger = this.props.error ? (
       <p>Ingredients cannot be loaded</p>
     ) : (
       <Spinner />
     )
-    console.log(this.props.ings)
+
     if (this.props.ings) {
       orderSummary = (
         <OrderSummary
@@ -91,9 +83,10 @@ class BurgerBuilder extends Component {
         </Aux>
       )
     }
-    if (this.state.loading) {
-      orderSummary = <Spinner />
-    }
+
+    // if (this.state.loading) {
+    //   orderSummary = <Spinner />
+    // }
 
     // {salad: true, meat: false, ...}
     return (
@@ -111,10 +104,10 @@ class BurgerBuilder extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     ings: state.ingredients,
     totalPrice: state.totalPrice,
+    error: state.error,
   }
 }
 
@@ -126,6 +119,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onIngredientRemoved: (ingName) => {
       dispatch(burgerBuilderActions.removeIngredient(ingName))
+    },
+    initIngredients: () => {
+      dispatch(burgerBuilderActions.initIngredients())
     },
   }
 }
