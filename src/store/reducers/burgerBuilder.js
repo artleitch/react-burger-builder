@@ -45,6 +45,7 @@ const reducer = (state = initialState, action) => {
         ingredients: {
           ...action.ingredients,
         },
+        totalPrice: initialState.totalPrice,
       }
     default:
       return state
