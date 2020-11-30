@@ -1,31 +1,29 @@
-import React from 'react'
+import React from 'react';
 
-import Logo from '../../Logo/Logo'
-import Backdrop from '../../UI/Backdrop/Backdrop'
-import NavigationItems from '../NavigationItems/NavigationItems'
-import Aux from '../../../hoc/Aux'
+import Logo from '../../Logo/Logo';
+import NavigationItems from '../NavigationItems/NavigationItems';
+import classes from './SideDrawer.css';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+import Aux from '../../../hoc/Aux/Aux';
 
-import classes from './SideDrawer.css'
+const sideDrawer = ( props ) => {
+    let attachedClasses = [classes.SideDrawer, classes.Close];
+    if (props.open) {
+        attachedClasses = [classes.SideDrawer, classes.Open];
+    }
+    return (
+        <Aux>
+            <Backdrop show={props.open} clicked={props.closed}/>
+            <div className={attachedClasses.join(' ')} onClick={props.closed}>
+                <div className={classes.Logo}>
+                    <Logo />
+                </div>
+                <nav>
+                    <NavigationItems isAuthenticated={props.isAuth} />
+                </nav>
+            </div>
+        </Aux>
+    );
+};
 
-const sideDrawer = (props) => {
-  // ... add different classes for animation
-  let attachedClasses = [classes.SideDrawer, classes.Close]
-  if (props.open) {
-    attachedClasses = [classes.SideDrawer, classes.Open]
-  }
-  return (
-    <Aux>
-      <Backdrop show={props.open} clicked={props.closed} />
-      <div className={attachedClasses.join(' ')}>
-        <div className={classes.Logo}>
-          <Logo />
-        </div>
-        <nav>
-          <NavigationItems />
-        </nav>
-      </div>
-    </Aux>
-  )
-}
-
-export default sideDrawer
+export default sideDrawer;
