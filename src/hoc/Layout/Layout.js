@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 
 import Aux from '../Aux/Aux'
@@ -9,13 +9,9 @@ import SideDrawer from '../../components/Navigation/SideDrawer/SideDrawer'
 const layout = (props) => {
   const [sideDrawerIsVisible, setSideDrawerIsVisible] = useState(false)
 
-  const sideDrawerClosedHandler = () => {
-    setSideDrawerIsVisible(false)
-  }
-
-  const sideDrawerToggleHandler = () => {
+  const sideDrawerClosedHandler = () => setSideDrawerIsVisible(false)
+  const sideDrawerToggleHandler = () =>
     setSideDrawerIsVisible(!sideDrawerIsVisible)
-  }
 
   return (
     <Aux>
